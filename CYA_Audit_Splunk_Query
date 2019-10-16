@@ -1,3 +1,19 @@
+# Copyright 2019 Paychex, Inc.
+# Licensed pursuant to the terms of the Apache License, Version 2.0 (the "License");
+# your use of the Work is subject to the terms and conditions of the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Disclaimer of Warranty. Unless required by applicable law or agreed to in writing, Licensor
+# provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including,
+# without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
+# MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible
+# for determining the appropriateness of using or redistributing the Work and assume 
+# any risks associated with your exercise of permissions under this License.
+
+
 (index=_internal (sourcetype="splunkd_ui_access" OR sourcetype="splunkd_access") (method="POST" OR method="DELETE") (uri_path="*/servicesNS/*" uri_path!="*/user-prefs/*" uri_path!="*/servicesNS/*/*/*/jobs/*/control" uri_path!="*/servicesNS/*/mobile_access*" uri_path!="*search/jobs*" uri_path!="*ui/prefs*" uri_path!="*search/parser" uri_path!="*search/intentionsparser") (user!="splunk-system-user" user!="-" user!="admin") status<300) OR (index=_audit "|*outputlookup" search=* NOT "index=_audit \"|" NOT "index=_*" NOT user=splunk-system-user )
 | replace "*/ui/views*" WITH "*/ui_views*", "*/props*" WITH "**", "*/distributed/peers*" WITH "*/distributed_peers*", "*/server/serverclasses*" WITH "*/server_class*" IN uri_path 
 | where mvcount(split(uri_path, "/")) > 6 OR index="_audit"
