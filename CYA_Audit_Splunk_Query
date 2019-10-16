@@ -1,0 +1,45 @@
+# Copyright 2019 Paychex, Inc.
+# Licensed pursuant to the terms of the Apache License, Version 2.0 (the "License");
+# your use of the Work is subject to the terms and conditions of the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Disclaimer of Warranty. Unless required by applicable law or agreed to in writing, Licensor
+# provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including,
+# without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
+# MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible
+# for determining the appropriateness of using or redistributing the Work and assume 
+# any risks associated with your exercise of permissions under this License.
+
+
+(index=_internal (sourcetype="splunkd_ui_access" OR sourcetype="splunkd_access") (method="POST" OR method="DELETE") (uri_path="*/servicesNS/*" uri_path!="*/user-prefs/*" uri_path!="*/servicesNS/*/*/*/jobs/*/control" uri_path!="*/servicesNS/*/mobile_access*" uri_path!="*search/jobs*" uri_path!="*ui/prefs*" uri_path!="*search/parser" uri_path!="*search/intentionsparser") (user!="splunk-system-user" user!="-" user!="admin") status<300) OR (index=_audit "|*outputlookup" search=* NOT "index=_audit \"|" NOT "index=_*" NOT user=splunk-system-user )
+| replace "*/ui/views*" WITH "*/ui_views*", "*/props*" WITH "**", "*/distributed/peers*" WITH "*/distributed_peers*", "*/server/serverclasses*" WITH "*/server_class*" IN uri_path 
+| where mvcount(split(uri_path, "/")) > 6 OR index="_audit"
+| eval activity = case(
+    method=="POST"
+    AND like(uri_path, "%/acl"), "Permissions Update", method=="POST"
+    AND like(uri, "%trigger.condition_state%"), "Scheduled Search", method=="POST"
+    AND like(uri_path, "%/dispatch"), "Dispatch", method=="POST"
+    AND NOT like(uri_path , "%/acl"), "Edited", method="DELETE", "Deleted", index="_audit", "Edited"
+   )
+| rex field=uri_path "/servicesNS(/[^\/]+){3}/(?<object_type>[^\/]+)/(?<object_name>[^\/]+)" 
+| rex field=uri_path "/servicesNS(/[^\/]+)\/(?<app>[^\/]+)" 
+| rex max_match=0 "\|\s*(outputlookup\s+append=[^\s]+\s*|outputlookup\s+)(?<modfile>[^\s\n\|\']+)"
+| rex field=search_id "scheduler__[^\_]+__(?<app2>[^\_]+)"
+| eval object_name=coalesce(object_name, modfile)
+| eval object_type=if(NOT index="_audit", object_type, "lookup-table-files")
+| eval app=coalesce(app, app2)
+| eval joiner=app.object_name
+| eval author=if(index="_audit", null(), author)
+| join joiner type=left
+   [| inputlookup EricsBigAssets.csv | eval joiner=coalesce('eai:acl.app','acl.app').title | table joiner author]
+| join object_name type=left
+   [| inputlookup EricsBigAssets.csv | eval object_name=title | table object_name author2]
+| eval author=coalesce(author, author2)
+| eval object_name = urldecode(object_name) 
+| where isnotnull(object_name) 
+| table _time, user, app, object_name, object_type, activity, author
+| sort - _time
+| where user!=author
