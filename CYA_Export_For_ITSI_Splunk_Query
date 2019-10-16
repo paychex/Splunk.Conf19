@@ -1,0 +1,16 @@
+| union maxtime=300 timeout=300
+   [| rest splunk_server=local /servicesNS/-/-/itoa_interface/glass_table | eval Type="ITSI Glass Tables"]
+   [| rest splunk_server=local /servicesNS/-/-/itoa_interface/home_view | eval Type="ITSI Home View"]
+   [| rest splunk_server=local /servicesNS/-/-/itoa_interface/deep_dive | eval Type="ITSI Deep Dive"]
+   [| rest splunk_server=local /servicesNS/nobody/SA-ITOA/itoa_interface/event_management_state | eval Type="ITSI Event Management State"]
+| fields Type value
+| eval value= spath(value, "{}")
+| mvexpand value
+| table Type value
+| spath input=value
+| search "acl.owner"=[| makeresults count=1 | eval username="$username$" | eval search="\"".mvfilter(NOT match(username,"username"))."\"" | table search | append
+       [| rest splunk_server=local /services/authentication/current-context | table username | rename username as search | eval search="\"".search."\""]
+   | stats list(search) as search | eval search=mvindex(search, 0)]
+| fields - value
+| eval _time=now()
+| table _time Type title acl.appauthor acl.perms.read acl.perms.write *
