@@ -1,0 +1,15 @@
+| rest splunk_server="local"
+[| rest splunk_server=local /services/authentication/current-context
+| table username
+| rename username as search
+| eval search="servicesNS/".search."/Splunk_ML_Toolkit/mltk/experiments"]
+| eval type="MLTK experiments"
+| eval entry= spath(value, "entry{}")
+| eval type="MLTK Experiments"
+| mvexpand entry
+| table type entry
+| spath input=entry
+| search author=[| makeresults count=1 | eval username="$username$" | eval search="\"".mvfilter(NOT match(username,"username"))."\"" | table search | append
+    [| rest splunk_server=local /services/authentication/current-context | table username | rename username as search | eval search="\"".search."\""]
+    | stats list(search) as search | eval search=mvindex(search, 0)]
+| fields - entry
