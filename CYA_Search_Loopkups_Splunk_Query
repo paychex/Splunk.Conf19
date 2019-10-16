@@ -1,0 +1,7 @@
+| inputlookup MyCYA.csv
+| eval allofit=""
+| foreach *
+[ eval allofit=allofit.",".coalesce('<<FIELD>>',"") ]
+| search allofit="*MySearchTerm*"
+| fields _time eai:acl.app eai:acl.owner eai:type title *
+| fields - allofit
