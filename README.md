@@ -9,7 +9,7 @@ Here you will find Splunk queries presented at Splunk .Conf19 in the presentatio
 
 **FN1315 - Cover Your Assets: Protect Your Knowledge Objects from Yourself (and Others) - A Paychex story**
 
-You can find this presenation at https://conf.splunk.com/ and search for FN1315.
+You can find this presentation at https://conf.splunk.com/ and search for FN1315.
 
 The slides and video will be published by Splunk a few weeks after the conference ends. We'll update this readme when we have the URLs.
 
@@ -37,11 +37,11 @@ We've seen issues having Splunk email the export results via the sendemail comma
 
 ## Future Support
 Ask questions at [Splunk Answers](https://answers.splunk.com/), so the whole community can benefit.
-You may want to tag @dmarling and @efavreau in your question or comment, to get our attention.
+You may want to tag [@dmarling](https://answers.splunk.com/users/468259/dmarling.html) and [@efavreau](https://answers.splunk.com/users/251903/efavreau.html) in your question or comment, to get our attention.
 
 Pull requests will be reviewed, however:
 
-- It MUST be able to be used on a freshly downloaded version of Splunk.
+- It MUST be able to be used on a freshly downloaded version of Splunk
 - You must specify the version of Splunk you used to test (for troubleshooting in case of issues with command deprecation or bugs, etc.)
 
 
