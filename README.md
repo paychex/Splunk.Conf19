@@ -9,9 +9,7 @@ Here you will find Splunk queries presented at Splunk .Conf19 in the presentatio
 
 **FN1315 - Cover Your Assets: Protect Your Knowledge Objects from Yourself (and Others) - A Paychex story**
 
-You can find this presentation at https://conf.splunk.com/ and search for FN1315.
-
-The slides and video will be published by Splunk a few weeks after the conference ends. We'll update this readme when we have the URLs.
+The presentation slides and video are available here: https://conf.splunk.com/watch/conf-online.html?search=FN1315#/
 
 These queries are turnkey (almost). Meaning, depending on the query, you may need to edit a value or three to fit your circumstance and/or your environment. These are covered in the presentation, but we have a few gotchas to look for out of the gate.
 
@@ -44,4 +42,6 @@ Pull requests will be reviewed, however:
 - It MUST be able to be used on a freshly downloaded version of Splunk
 - You must specify the version of Splunk you used to test (for troubleshooting in case of issues with command deprecation or bugs, etc.)
 
-
+## Additional Notes
+Reference: https://answers.splunk.com/answers/780617/paychexsplunkconf19-cover-your-assets-cya-export-e.html
+Note: It is safe to ignore the "Failed to parse templatized search for field" errors for any field originating from the ntags end point, that starts "tagged.*"
