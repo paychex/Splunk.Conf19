@@ -9,7 +9,7 @@ Here you will find Splunk queries presented at Splunk .Conf19 in the presentatio
 
 **FN1315 - Cover Your Assets: Protect Your Knowledge Objects from Yourself (and Others) - A Paychex story**
 
-The presentation slides and video are available here: https://conf.splunk.com/watch/conf-online.html?search=FN1315#/
+The presentation slides are available [here](https://conf.splunk.com/files/2019/slides/FN1315.pdf) and the video is available [here](https://conf.splunk.com/files/2019/recordings/FN1315.mp4).
 
 These queries are turnkey (almost). Meaning, depending on the query, you may need to edit a value or three to fit your circumstance and/or your environment. These are covered in the presentation, but we have a few gotchas to look for out of the gate.
 
