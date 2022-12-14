@@ -34,8 +34,8 @@ With the Audit query, when getting started, you may want to remove line 29, to p
 We've seen issues having Splunk email the export results via the sendemail command or via a scheduled search. It had extra character sequences. YMMV. 
 
 ## Future Support
-Ask questions at [Splunk Answers](https://answers.splunk.com/), so the whole community can benefit.
-You may want to tag [@dmarling](https://answers.splunk.com/users/468259/dmarling.html) and [@efavreau](https://answers.splunk.com/users/251903/efavreau.html) in your question or comment, to get our attention.
+Ask questions at the [Splunk Community](https://community.splunk.com/) site, so the whole community can benefit.
+You may want to tag [@dmarling](https://community.splunk.com/t5/user/viewprofilepage/user-id/215385) and [@efavreau](https://community.splunk.com/t5/user/viewprofilepage/user-id/88735) in your question or comment, to get our attention.
 
 Pull requests will be reviewed, however:
 
@@ -43,5 +43,5 @@ Pull requests will be reviewed, however:
 - You must specify the version of Splunk you used to test (for troubleshooting in case of issues with command deprecation or bugs, etc.)
 
 ## Additional Notes
-Reference: https://answers.splunk.com/answers/780617/paychexsplunkconf19-cover-your-assets-cya-export-e.html
+Reference: https://community.splunk.com/t5/Archive/paychex-Splunk-Conf19-Cover-Your-Assets-CYA-Export-error-with/td-p/474803
 Note: It is safe to ignore the "Failed to parse templatized search for field" errors for any field originating from the ntags end point, that starts "tagged.*"
