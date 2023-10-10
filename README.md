@@ -2,7 +2,7 @@
 
 ## Welcome!
 
-###### Please note the this project was built and tested on Splunk Enterprise/Cloud version 6.6.* and above, due to the use of the union command.
+###### Please note the this project was initially built and tested on Splunk Enterprise/Cloud version 6.6.*, due to the use of the union command. We, and many others, continue to use this solution on all subsequent versions of Splunk.
 
 
 Here you will find Splunk queries presented at Splunk .Conf19 in the presentation by Dustin Marling and Eric D. Favreau:
